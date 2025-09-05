@@ -1,5 +1,6 @@
 resource "aws_lambda_function" "lambda_db_integration" {
   function_name    = "lambda_db_integration"
+  handler          = "lambda_function.lambda_handler"
   role             = aws_iam_role.lambda_role.arn
   runtime          = "python3.9"
   filename         = "../lambda_function.zip"
