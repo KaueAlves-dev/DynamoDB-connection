@@ -11,10 +11,18 @@ from dto.dto import UserDTO
 router = Router()
 logger = Logger()
 
+user_service = UserService()
 
 @router.get('/dynamo')
 def get_all():
-  pass
+  query_params = router.current_event.query_string_parameters
+
+  if query_params:
+    user_dto = UserDTO.from_dict(query_params)
+    response, status_code = user_service.get_item(user_dto)
+
+  # response, status_code = user_service.get_all_items()
+  return json.dumps(response), status_code
 
 
 @router.get('/dynamo/{id}')
@@ -27,25 +35,23 @@ def get_sentiment(sentiment: str):
 
 @router.post('/dynamo')
 def create():
-  #db = DynamoDB()
-  #new_id = str(uuid.uuid4())
-  #hoje = datetime.date()
-  #db.insert_item(f"USERID#{new_id}", f"TIME#{hoje}", nome="kaue", idade=20)
   
-
-  #return json.dumps({"teste": "deu certo"}), 201
-
   body = router.current_event.json_body
   user_dto = UserDTO.from_dict(body)
-  user_service = UserService()
-  response = user_service.insert_item(user_dto)
+  response, status_code = user_service.insert_item(user_dto)
 
-
-
-@router.put('/dynamo')
-def updtae():
-  pass
+  return json.dumps(response), status_code
+  
 
 @router.delete('/dynamo')
 def delete():
+  body = router.current_event.json_body
+  user_dto = UserDTO.from_dict(body)
+  response, status_code = user_service.delete_item(user_dto)
+
+  return json.dumps(response), status_code
+  
+
+@router.put('/dynamo')
+def update():
   pass

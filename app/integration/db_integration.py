@@ -13,51 +13,46 @@ class DynamoDB:
     self.resource = boto3.resource("dynamodb")
     self.table = self.resource.Table(TABLE_NAME)
 
-  def get_item(self, item):
+  def get_item(self, item: dict):
     try:
       response = self.table.get_item(Key=item)
 
-      if response.get("Item", False):
-        return response["Item"]
-      
-      raise
+      return response.get("Item", False)
 
     except Exception as e:
       logger.info(f"Não foi possivel encontrar o item {e}")
       return False
 
-  def insert_item(self, item):
+  def insert_item(self, item: dict):
     logger.info("Iniciando inserção no banco de dados")
     try:
       response = self.table.put_item(Item=item)
-
       status_code = response["ResponseMetadata"]["HTTPStatusCode"]
 
-      if status_code >= 300:
-        raise 
+      if status_code < 300:
+        return True
 
-      return True
+      return False
 
     except Exception as e:
       logger.info(f"Não foi possivel encontrar o item {e}")
       return False  
     
-  def update_item():
-    pass
-
-
-  def delete_item(self, item):
+  def delete_item(self, item: dict):
     
     try:
       response = self.table.delete_item(Key=item)
+      status_code = response["ResponseMetadata"]["HTTPStatusCode"]
+
+      if status_code < 300:
+        return True
+      
+      return False
 
     except Exception as e:
       logger.info(f"Não foi possivel encontrar o item {e}")
-      raise e  
+      return False 
     
-    logger.info(f"Resposta ao deletar item -> {response}")
-    return response   
-
 #hardcore
   def update_item():
     pass
