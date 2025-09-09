@@ -12,8 +12,9 @@ class UserDTO():
 
   @classmethod
   def from_dict(cls, item: dict):
-    
-    return cls(item.get("userId", generate_uuid()), item.get("date", get_date()), {k : v for k, v in item.items() if k not in ["userId", "date"]})
+    uuid = generate_uuid()
+    date = get_date()
+    return cls(item.get("userId", f"USERID#{uuid}"), item.get("date", f"DATE#{date}"), {k : v for k, v in item.items() if k not in ["userId", "date"]})
   
   def to_dict(self):
     return {"userId":self.userid, "time": self.date, **self.items}

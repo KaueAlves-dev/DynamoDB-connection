@@ -13,20 +13,6 @@ resource "aws_apigatewayv2_route" "route_get_all" {
   target = "integrations/${aws_apigatewayv2_integration.lambda_db_integration.id}"  
 }
 
-resource "aws_apigatewayv2_route" "route_get_id" {
-  api_id = "3tq8naalth"
-  route_key = "GET /dynamo/{id}"
-
-  target = "integrations/${aws_apigatewayv2_integration.lambda_db_integration.id}"  
-}
-
-resource "aws_apigatewayv2_route" "route_get_sentiment" {
-  api_id = "3tq8naalth"
-  route_key = "GET /dynamo/{sentiment}"
-
-  target = "integrations/${aws_apigatewayv2_integration.lambda_db_integration.id}"  
-}
-
 resource "aws_apigatewayv2_route" "route_post" {
   api_id = "3tq8naalth"
   route_key = "POST /dynamo"

@@ -22,16 +22,8 @@ def get_all():
     response, status_code = user_service.get_item(user_dto)
 
   # response, status_code = user_service.get_all_items()
-  return json.dumps(response), status_code
+  return response, status_code
 
-
-@router.get('/dynamo/{id}')
-def get_id(id: str):
-  pass
-
-@router.get('/dynamo/{sentiment}')
-def get_sentiment(sentiment: str):
-  pass
 
 @router.post('/dynamo')
 def create():
@@ -40,7 +32,7 @@ def create():
   user_dto = UserDTO.from_dict(body)
   response, status_code = user_service.insert_item(user_dto)
 
-  return json.dumps(response), status_code
+  return response, status_code
   
 
 @router.delete('/dynamo')
@@ -49,9 +41,13 @@ def delete():
   user_dto = UserDTO.from_dict(body)
   response, status_code = user_service.delete_item(user_dto)
 
-  return json.dumps(response), status_code
+  return response, status_code
   
 
 @router.put('/dynamo')
 def update():
-  pass
+  body = router.current_event.json_body
+  user_dto = UserDTO.from_dict(body)
+  response, status_code = user_service.update_item(user_dto)
+
+  return response, status_code

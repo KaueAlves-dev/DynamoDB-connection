@@ -42,7 +42,16 @@ class UserService():
     return {"message": "Erro ao deletar item!", "error": True}, 500
     
   def update_item(self, user_dto: UserDTO):
-    pass
+    item = user_dto.to_dict()
+    item_keys = {k : v for k, v in item if k in ["userId", "time"]}
+    item_values = {k : v for k, v in item if k not in ["userId", "time"]}
+
+    response = self.dynamo.update_item(item_keys, item_values)
+
+    if response:
+      return {"message": "Sucesso ao atualizar item!", "error": False}, 200
+    
+    return {"message": "Erro ao atualizar item!", "error": True}, 500
 
   def get_all_items(self):
     pass
