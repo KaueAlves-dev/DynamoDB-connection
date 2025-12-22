@@ -30,7 +30,7 @@ class DynamoDB:
       status_code = response["ResponseMetadata"]["HTTPStatusCode"]
 
       if status_code < 300:
-        return True
+        return item
 
       return False
 

@@ -16,7 +16,7 @@ class UserService():
     response = self.dynamo.insert_item(item)
 
     if response:
-      return {"message": "Sucesso ao inserir item!", "error": False}, 201
+      return {"message": "Sucesso ao inserir item!", "error": False, "Item": response}, 201
     
     return {"message": "Erro ao inserir item!", "error": True}, 500
   
@@ -26,7 +26,7 @@ class UserService():
     response = self.dynamo.get_item(item)
 
     if response:
-      return {"Item": response, "error": False}, 200
+      return {"error": False, "Item": response}, 200
     
     return {"message": "Erro ao buscar item!", "error": True}, 404
   
@@ -51,7 +51,7 @@ class UserService():
     if response:
       return {"message": "Sucesso ao atualizar item!", "error": False}, 200
     
-    return {"message": "Erro ao atualizar item!", "error": True}, 500
+    return {"message": "Erro ao atualizar item!", "error": True, "Item": response}, 500
 
   def get_all_items(self):
     pass
